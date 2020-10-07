@@ -16,6 +16,7 @@ var getCurrentWeather = function(city) {
             // request was successful
             if(response.ok) {
                 response.json().then(function(data) {
+                    displayCurrent(data);
                     console.log(data);
                 });
             }
@@ -38,6 +39,36 @@ var getForecast = function(city) {
             }
         });
 };
+
+var displayCurrent = function(city) {
+    // clear old conent
+    currentWeatherEl.textContent = "";
+
+    // create a container for each current city date
+    var currentCityEl = document.createElement("h2");
+    var currentDateEl = document.createElement("span");
+    var currentIconEl = document.createElement("img");
+    var cityName = city.name;
+    var currentDay = new Date();
+    var month = currentDay.getMonth();
+    var day = currentDay.getDate();
+    var year = currentDay.getFullYear();
+    var date = month + "/" + day + "/" + year;
+    var icon = "http://openweathermap.org/img/wn/" + city.weather[0].icon + "@2x.png";
+    currentIconEl.setAttribute("src", icon);
+    
+    
+    currentCityEl.textContent = cityName;
+    currentDateEl.textContent = " (" + date + ")";
+    // currentIconEl = icon;
+    currentCityEl.appendChild(currentDateEl);
+    currentCityEl.appendChild(currentIconEl);
+    currentWeatherEl.appendChild(currentCityEl);
+
+}
+
+
+
 
 
 var formSubmitHandler = function(event) {

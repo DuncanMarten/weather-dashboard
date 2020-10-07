@@ -4,31 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
 </head>
-<body>
-    <header>
+<body class="flex-column min-100-vh">
+    <header class="bg-dark text-white text-center p-2">
         <h1>Weather Dashboard</h1>
     </header>
 
-    <main>
-        <div>
-            <div>
+    <main class="row justify-space-between">
+        <!-- Search form-->
+        <div class="col-12 col-md-4">
+            <div class="p-3">
                 <h3>Search for a City:</h3>
                 <form id="city-form">
                     <input name="city" id="city" type="text" />
-                    <button type="submit">Mag Glass</button>
+                    <button type="submit" class="btn bg-primary text-white"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <div id="previous-container">
+            <div id="previous-container" class="list-group">
 
             </div>
         </div>
 
-        <div>
+        <div class="col-12 col-md-8">
             <div id="current-container">
 
             </div>
-            <div id="forecast-container">
+            <h3>5-Day Forecast:</h3>
+            <div id="forecast-container" class="border">
 
             </div>
         </div>
