@@ -18,7 +18,7 @@ var getCurrentWeather = function(city) {
                 response.json().then(function(data) {
                     displayCurrent(data);
                     getUV(data);
-                    console.log(data);
+                    
                 });
             }
         });
@@ -27,7 +27,7 @@ var getCurrentWeather = function(city) {
 
 var getForecast = function(city) {
     // format the forecast openweather api
-    var forecastApi = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a";
+    var forecastApi = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a&units=imperial";
 
     // make a request to the url
     fetch(forecastApi)
@@ -35,7 +35,8 @@ var getForecast = function(city) {
             // request was successful
             if(response.ok) {
                 response.json().then(function(data) {
-                    console.log(data);
+                    displayForecast(data);
+                    
                 });
             }
         });
@@ -58,7 +59,16 @@ var getUV = function(city) {
                     // current UV index
                     var UVEl = document.createElement("p");
                     var UV = data.value;
-                    UVEl.textContent = "UV Index:  " + UV;
+
+                    if (UV < 3){
+                        UVEl.innerHTML = "UV Index:  " + "<span class='bg-success text-white p-1'>" + UV + "</span>";
+                    }
+                    else if (UV > 3 && UV < 7) {
+                        UVEl.innerHTML = "UV Index:  " + "<span class='bg-warning p-1'>" + UV + "</span>";
+                    }
+                    else {
+                        UVEl.innerHTML = "UV Index:  " + "<span class='bg-danger text-white p-1'>" + UV + "</span>";
+                    }
                     //append to current weather container
                     currentWeatherEl.appendChild(UVEl);
                 });
@@ -91,7 +101,7 @@ var displayCurrent = function(city) {
     
     // current temperature
     var tempEl = document.createElement("p");
-    var openTemp = city.main.temp;
+    var openTemp = Math.round(city.main.temp * 10) / 10;
     tempEl.textContent = "Temperature:  " + openTemp + " °F"
 
     // current humidity
@@ -101,7 +111,7 @@ var displayCurrent = function(city) {
 
     // current wind speed
     var windEl = document.createElement("p");
-    var windSpeed = city.wind.speed;
+    var windSpeed = Math.round(city.wind.speed * 10) / 10;
     windEl.textContent = "Wind Speed:  " + windSpeed + " MPH";
 
    // set the text content of elements 
@@ -120,7 +130,55 @@ var displayCurrent = function(city) {
 
 }
 
+var displayForecast = function(city) {
+    // set title of forecast
+    var titleEl = document.querySelector("#forecastTitle");
+    titleEl.removeAttribute("class", "d-none");
+    titleEl.setAttribute("class", "d-block")
 
+    // remove old content
+    forecastEl.textContent = "";
+
+    // loop over array to create 5 day forecast
+    for (i = 0; i < city.list.length; i += 8){
+        // created elements for forecast
+        var dayForecast = document.createElement("div");
+        dayForecast.setAttribute("class", "col-md-2 bg-primary text-white ml-md-2")
+        var date = document.createElement("h5");
+        var iconEl = document.createElement("img");
+        var tempEl = document.createElement("p");
+        var humidEl = document.createElement("p");
+
+        // list item variable
+        var dayDate = city.list[i];
+
+        // create date for each list item
+        var dateText = dayDate.dt_txt.split(" ")[0];
+        var dateParts = dateText.split("-");
+        date.textContent = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];
+        
+        // create the weather icon
+        var icon = "http://openweathermap.org/img/wn/" + dayDate.weather[0].icon + "@2x.png";
+        iconEl.setAttribute("src", icon);
+        
+        // create the temperature text
+        var temp = Math.round(dayDate.main.temp * 10) / 10;
+        tempEl.textContent = "Temp:  " + temp  + " °F";
+
+        // create the humidity text
+        var humid = dayDate.main.humidity;
+        humidEl.textContent = "Humidity:  " + humid + "%";
+
+        // append elements to container
+        dayForecast.appendChild(date);
+        dayForecast.appendChild(iconEl);
+        dayForecast.appendChild(tempEl);
+        dayForecast.appendChild(humidEl);
+        
+        // append each day element to container
+        forecastEl.appendChild(dayForecast);
+    }
+};
 
 
 
