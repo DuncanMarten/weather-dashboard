@@ -77,6 +77,7 @@ var getUV = function(city) {
 };
 
 var displayCurrent = function(city) {
+    
     // clear old conent
     currentWeatherEl.textContent = "";
 
@@ -107,7 +108,7 @@ var displayCurrent = function(city) {
     // current humidity
     var humidEl = document.createElement("p");
     var humidity = city.main.humidity;
-    humidEl.textContent = "Humidity:  " + humidity + " %";
+    humidEl.textContent = "Humidity:  " + humidity + "%";
 
     // current wind speed
     var windEl = document.createElement("p");
@@ -181,17 +182,51 @@ var displayForecast = function(city) {
 };
 
 
+// Array for cities 
+var cities = [];
+
+// save previous searched cities
+var saveCity = function(){
+    localStorage.setItem("city", JSON.stringify(cities))
+}
+
+// display cities stored as buttons
+var createCityButtons = function() {
+    // pull and parse localStorage
+    cities = JSON.parse(localStorage.getItem("city"));
+
+    // clear button container
+    citiesListEl.innerHTML = "";
+    // loop through eash city array item
+    for (i = 0; i < cities.length; i++) {
+        // create button
+        var cityButtonEl = document.createElement("button");
+        var citySelect = cities[i];
+        cityButtonEl.textContent = citySelect;
+        citiesListEl.appendChild(cityButtonEl);
+    }
+
+    if(!cities) {
+        cities = [];
+    }
+
+}
+
+
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
 
     // get value from input element
     var city = cityInputEl.value.trim();
+    cities.push(cityInputEl.value);
 
     if (city) {
         getCurrentWeather(city);
         getForecast(city);
         cityInputEl.value = "";
+        saveCity();
+        createCityButtons();
     } else {
         alert("Please enter a City name!");
     }
