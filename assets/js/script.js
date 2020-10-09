@@ -8,7 +8,7 @@ forecastEl = document.querySelector("#forecast-container");
 
 var getCurrentWeather = function(city) {
     // format the current weather openweather api
-    var weatherApi = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a&units=imperial";
+    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a&units=imperial";
 
     // make a request to the url
     fetch(weatherApi)
@@ -30,7 +30,7 @@ var getCurrentWeather = function(city) {
 
 var getForecast = function(city) {
     // format the forecast openweather api
-    var forecastApi = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a&units=imperial";
+    var forecastApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18b425dc0d2d222cc6d9672def840d5a&units=imperial";
 
     // make a request to the url
     fetch(forecastApi)
@@ -51,7 +51,7 @@ var getUV = function(city) {
     var long = city.coord.lon;
     
     // format the uv openweather api
-    var UVApi = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + "&appid=18b425dc0d2d222cc6d9672def840d5a";
+    var UVApi = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + "&appid=18b425dc0d2d222cc6d9672def840d5a";
 
     // make a request to the url
     fetch(UVApi)
