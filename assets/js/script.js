@@ -20,6 +20,8 @@ var getCurrentWeather = function(city) {
                     getUV(data);
                     
                 });
+            } else {
+                alert("Please enter a new city!");
             }
         });
 
@@ -38,6 +40,8 @@ var getForecast = function(city) {
                     displayForecast(data);
                     
                 });
+            } else {
+                alert("Please enter a new city!");
             }
         });
 };
@@ -201,6 +205,7 @@ var createCityButtons = function() {
     for (i = 0; i < cities.length; i++) {
         // create button
         var cityButtonEl = document.createElement("button");
+        cityButtonEl.setAttribute("value", cities[i]);
         var citySelect = cities[i];
         cityButtonEl.textContent = citySelect;
         citiesListEl.appendChild(cityButtonEl);
@@ -219,7 +224,10 @@ var formSubmitHandler = function(event) {
 
     // get value from input element
     var city = cityInputEl.value.trim();
-    cities.push(cityInputEl.value);
+
+    if (cities.includes(city) === false) {
+    cities.push(city);
+    }
 
     if (city) {
         getCurrentWeather(city);
@@ -232,5 +240,21 @@ var formSubmitHandler = function(event) {
     }
 }
 
+var buttonClickHandler = function(event) {
+    event.preventDefault();
+
+    // get value of city from button
+    var citySelected = event.target.value;
+
+    // push selected city into fetches
+    getCurrentWeather(citySelected);
+    getForecast(citySelected);
+}
+
+
+saveCity();
+createCityButtons();
+
 // submit button clicked
 cityFormEl.addEventListener("submit", formSubmitHandler);
+citiesListEl.addEventListener("click", buttonClickHandler);
