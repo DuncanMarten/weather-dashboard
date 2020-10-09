@@ -100,7 +100,7 @@ var displayCurrent = function(city) {
     var date = month + "/" + day + "/" + year;
     
     // create the weather icon
-    var icon = "http://openweathermap.org/img/wn/" + city.weather[0].icon + "@2x.png";
+    var icon = "https://openweathermap.org/img/wn/" + city.weather[0].icon + "@2x.png";
     currentIconEl.setAttribute("src", icon);
     
     // current temperature
@@ -162,7 +162,7 @@ var displayForecast = function(city) {
         date.textContent = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];
         
         // create the weather icon
-        var icon = "http://openweathermap.org/img/wn/" + dayDate.weather[0].icon + "@2x.png";
+        var icon = "https://openweathermap.org/img/wn/" + dayDate.weather[0].icon + "@2x.png";
         iconEl.setAttribute("src", icon);
         
         // create the temperature text
