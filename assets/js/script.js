@@ -23,7 +23,7 @@ var getCurrentWeather = function(city) {
                 alert("Please enter a new city!");
             }
         }).catch(function(error) {
-            alert("Unable to connect to Github");
+            alert("Unable to connect to OpenWeather");
         })
 
 };
