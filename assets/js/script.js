@@ -18,12 +18,13 @@ var getCurrentWeather = function(city) {
                 response.json().then(function(data) {
                     displayCurrent(data);
                     getUV(data);
-                    
                 });
             } else {
                 alert("Please enter a new city!");
             }
-        });
+        }).catch(function(error) {
+            alert("Unable to connect to Github");
+        })
 
 };
 
@@ -40,9 +41,7 @@ var getForecast = function(city) {
                     displayForecast(data);
                     
                 });
-            } else {
-                alert("Please enter a new city!");
-            }
+            } 
         });
 };
 
@@ -201,23 +200,26 @@ var createCityButtons = function() {
 
     // clear button container
     citiesListEl.innerHTML = "";
+
+    if (!cities) {
+        cities = [];
+    }
+
     // loop through eash city array item
     for (i = 0; i < cities.length; i++) {
         // create button
         var cityButtonEl = document.createElement("button");
         cityButtonEl.setAttribute("value", cities[i]);
+        cityButtonEl.setAttribute("class", "btn btn-secondary mt-1 ml-2")
+            
+        // find and set city item to button element
         var citySelect = cities[i];
         cityButtonEl.textContent = citySelect;
+
+        // append button to container
         citiesListEl.appendChild(cityButtonEl);
     }
-
-    if(!cities) {
-        cities = [];
-    }
-
 }
-
-
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
@@ -226,7 +228,7 @@ var formSubmitHandler = function(event) {
     var city = cityInputEl.value.trim();
 
     if (cities.includes(city) === false) {
-    cities.push(city);
+        cities.push(city);
     }
 
     if (city) {
@@ -251,8 +253,6 @@ var buttonClickHandler = function(event) {
     getForecast(citySelected);
 }
 
-
-saveCity();
 createCityButtons();
 
 // submit button clicked
